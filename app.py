@@ -1,5 +1,5 @@
 # Importa as ferramentas necessárias para criar o sistema web.
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 
 # Importa a função que prepara o banco de dados.
@@ -92,9 +92,10 @@ def consultar_estoque():
 
     # Consulta os medicamentos e suas informações de estoque.
     medicamentos = conexao.execute("""
-        SELECT Medicamento.nome,
-               Estoque.quantidade,
-               Estoque.data_validade
+    SELECT Estoque.id_estoque,
+           Medicamento.nome,
+           Estoque.quantidade,
+           Estoque.data_validade
         FROM Medicamento
         JOIN Estoque
           ON Medicamento.id_medicamento = Estoque.id_medicamento
@@ -108,6 +109,48 @@ def consultar_estoque():
     return render_template(
         "estoque.html",
         medicamentos=medicamentos)
+
+# Permite consultar e atualizar a quantidade de um medicamento.
+@app.route("/atualizar/<int:id_estoque>", methods=["GET", "POST"])
+def atualizar_estoque(id_estoque):
+    conexao = sqlite3.connect("estoque.db")
+    conexao.row_factory = sqlite3.Row
+
+    medicamento = conexao.execute("""
+        SELECT Estoque.id_estoque, Medicamento.nome, Estoque.quantidade
+        FROM Estoque
+        JOIN Medicamento
+        ON Medicamento.id_medicamento = Estoque.id_medicamento
+        WHERE Estoque.id_estoque = ?
+    """, (id_estoque,)).fetchone()
+
+    if medicamento is None:
+        conexao.close()
+        return "Medicamento não encontrado.", 404
+
+    if request.method == "POST":
+        try:
+            quantidade = int(request.form.get("quantidade", ""))
+        except ValueError:
+            conexao.close()
+            return "Quantidade inválida.", 400
+
+        if quantidade < 0:
+            conexao.close()
+            return "A quantidade não pode ser negativa.", 400
+
+        conexao.execute(
+            "UPDATE Estoque SET quantidade = ? WHERE id_estoque = ?",
+            (quantidade, id_estoque)
+        )
+        conexao.commit()
+        conexao.close()
+
+        return redirect(url_for("consultar_estoque"))
+
+    conexao.close()
+    return render_template("atualizar.html", medicamento=medicamento)
+
 
 # Inicia o sistema para testes durante o desenvolvimento.
 if __name__ == "__main__":

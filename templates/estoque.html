@@ -5,6 +5,7 @@
             <th>Medicamento</th>
             <th>Quantidade</th>
             <th>Validade</th>
+            <th>Ação</th>
         </tr>
 
         {% for medicamento in medicamentos %}
@@ -12,6 +13,11 @@
             <td>{{ medicamento["nome"] }}</td>
             <td>{{ medicamento["quantidade"] }}</td>
             <td>{{ medicamento["data_validade"] }}</td>
+            <td>
+    <a href="/atualizar/{{ medicamento['id_estoque'] }}">
+        Atualizar
+    </a>
+</td>
         </tr>
         {% endfor %}
     </table>

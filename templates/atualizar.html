@@ -1,0 +1,20 @@
+<p>Medicamento: {{ medicamento["nome"] }}</p>
+
+    <form method="POST">
+        <label for="quantidade">Nova quantidade:</label>
+        <input
+            type="number"
+            id="quantidade"
+            name="quantidade"
+            min="0"
+            step="1"
+            value="{{ medicamento['quantidade'] }}"
+            required
+        >
+
+        <button type="submit">Salvar alteração</button>
+    </form>
+
+    <p><a href="/estoque">Voltar ao estoque</a></p>
+</body>
+</html>
