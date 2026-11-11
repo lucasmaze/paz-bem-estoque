@@ -79,7 +79,9 @@ def cadastro():
         finally:
             conexao.close()
 
-        return "Medicamento cadastrado com sucesso!"
+        # Após cadastrar, retorna automaticamente à consulta de estoque.
+        return redirect(url_for("consultar_estoque"))
+
 
     # Exibe a tela quando o usuário acessa a página.
     return render_template("cadastro.html")

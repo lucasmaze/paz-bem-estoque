@@ -1,7 +1,35 @@
-<p>Medicamento: {{ medicamento["nome"] }}</p>
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Permite a exibição correta de caracteres especiais. -->
+    <meta charset="UTF-8">
+
+    <!-- Adapta a página à largura da tela do celular. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Carrega o arquivo CSS responsável pela aparência. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Título exibido na aba do navegador. -->
+    <title>Atualizar medicamento</title>
+</head>
+
+<body>
+
+    <!-- Título da página. -->
+    <h2>Atualizar estoque</h2>
+
+    <!-- Mostra o nome do medicamento selecionado. -->
+    <p>Medicamento: <strong>{{ medicamento["nome"] }}</strong></p>
+
+    <!-- Formulário para atualizar a quantidade. -->
     <form method="POST">
+
+        <!-- Campo para informar a nova quantidade. -->
         <label for="quantidade">Nova quantidade:</label>
+
         <input
             type="number"
             id="quantidade"
@@ -12,9 +40,15 @@
             required
         >
 
+        <!-- Envia a alteração para o sistema. -->
         <button type="submit">Salvar alteração</button>
+
     </form>
 
-    <p><a href="/estoque">Voltar ao estoque</a></p>
+    <!-- Permite retornar à consulta de estoque. -->
+    <p>
+        <a href="/estoque">Voltar ao estoque</a>
+    </p>
+
 </body>
 </html>

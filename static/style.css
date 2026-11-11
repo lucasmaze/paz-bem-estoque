@@ -1,0 +1,191 @@
+
+/* Aparência geral da página. */
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding: 16px;
+    background-color: #f5f7f5;
+    color: #222;
+}
+
+/* Título da página. */
+h2 {
+    color: #176b45;
+    font-size: 24px;
+}
+
+/* Área que contém a tabela de medicamentos. */
+.tabela-estoque {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* Tabela de medicamentos. */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+/* Cabeçalho da tabela. */
+th {
+    background-color: #176b45;
+    color: white;
+}
+
+/* Células da tabela. */
+th, td {
+    padding: 12px;
+    border: 1px solid #ccc;
+    text-align: left;
+    font-size: 14px;
+}
+
+/* Links para atualizar e cadastrar medicamentos. */
+a {
+    color: #176b45;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0 8px;
+    box-sizing: border-box;
+}
+
+/* Campos e botões dos formulários. */
+input, button {
+    font-size: 16px;
+    min-height: 44px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Ajustes para telas de celulares. */
+@media (max-width: 600px) {
+
+    /* Reduz o espaço nas bordas da página. */
+    body {
+        padding: 8px;
+    }
+
+    /* Ajusta o tamanho do título. */
+    h2 {
+        font-size: 21px;
+    }
+
+    /* Mantém a tabela larga o suficiente para leitura. */
+    .tabela-estoque table {
+        min-width: 650px;
+    }
+
+    /* Mantém as letras legíveis e evita palavras quebradas. */
+    .tabela-estoque th,
+    .tabela-estoque td {
+        padding: 10px;
+        font-size: 14px;
+        overflow-wrap: normal;
+        word-break: normal;
+    }
+
+    /* Facilita o toque no link Atualizar. */
+    .tabela-estoque td a {
+        min-height: 44px;
+        padding: 0 8px;
+        font-size: 14px;
+    }
+}
+
+/* Organização do formulário de atualização. */
+form {
+    max-width: 400px;
+}
+
+/* Coloca o texto do campo acima da caixa de entrada. */
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+/* Melhora a aparência do campo de quantidade. */
+form input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    background-color: white;
+}
+
+/* Melhora a aparência do botão Salvar alteração. */
+form button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #176b45;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Destaca o botão quando recebe foco. */
+form button:focus-visible {
+    outline: 3px solid #222;
+    outline-offset: 2px;
+}
+
+/* Título principal do sistema. */
+h1 {
+    color: #176b45;
+    font-size: 24px;
+    line-height: 1.3;
+}
+
+/* Organiza o formulário de cadastro. */
+.formulario-cadastro {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 450px;
+}
+
+/* Identificação dos campos. */
+.formulario-cadastro label {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Aparência dos campos de preenchimento. */
+.formulario-cadastro input {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    background-color: white;
+}
+
+/* Botão para cadastrar medicamento. */
+.formulario-cadastro button {
+    width: 100%;
+    min-height: 44px;
+    padding: 12px;
+    background-color: #176b45;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Destaque do botão ao passar o mouse. */
+.formulario-cadastro button:hover {
+    background-color: #125536;
+}

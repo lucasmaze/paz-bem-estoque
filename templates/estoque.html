@@ -1,6 +1,27 @@
-<h2>Consulta de estoque</h2>
+<!DOCTYPE html>
+<html lang="pt-BR">
 
+<head>
+    <!-- Permite a exibição correta da página no celular. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <!-- Carrega o arquivo CSS responsável pela aparência. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>Consulta de Estoque</title>
+</head>
+
+<body>
+
+    <!-- Título da página. -->
+    <h2>Consulta de estoque</h2>
+
+    <!-- Tabela com os medicamentos cadastrados. -->
+    <div class="tabela-estoque">
     <table border="1" cellpadding="8">
+
+        <!-- Cabeçalho da tabela. -->
         <tr>
             <th>Medicamento</th>
             <th>Quantidade</th>
@@ -9,21 +30,37 @@
             <th>Ação</th>
         </tr>
 
+        <!-- Percorre os medicamentos recebidos do Python. -->
         {% for medicamento in medicamentos %}
         <tr>
+
+            <!-- Exibe os dados do medicamento. -->
             <td>{{ medicamento["nome"] }}</td>
             <td>{{ medicamento["quantidade"] }}</td>
             <td>{{ medicamento["data_validade"] }}</td>
+
+            <!-- Exibe o aviso de validade correspondente. -->
             <td>{{ avisos[loop.index0] }}</td>
+
+            <!-- Permite atualizar a quantidade do medicamento. -->
             <td>
-    <a href="/atualizar/{{ medicamento['id_estoque'] }}">
-        Atualizar
-    </a>
-</td>
+                <a href="{{ url_for('atualizar_estoque', id_estoque=medicamento['id_estoque']) }}">
+                    Atualizar
+                </a>
+            </td>
+
         </tr>
         {% endfor %}
-    </table>
 
-    <p><a href="/cadastro">Cadastrar medicamento</a></p>
+    </table>
+    </div>
+
+    <!-- Link para cadastrar outro medicamento. -->
+    <p>
+        <a href="{{ url_for('cadastro') }}">
+            Cadastrar medicamento
+        </a>
+    </p>
+
 </body>
 </html>
