@@ -1,6 +1,7 @@
 # Importa as ferramentas necessárias para criar o sistema web.
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
+from datetime import date, timedelta
 
 # Importa a função que prepara o banco de dados.
 from banco import criar_banco
@@ -105,10 +106,28 @@ def consultar_estoque():
     # Encerra a conexão.
     conexao.close()
 
+     # Define a data atual e o limite de 30 dias.
+    hoje = date.today()
+    limite_validade = hoje + timedelta(days=30)
+
+     # Verifica a validade de cada medicamento.
+    avisos = []
+
+    for medicamento in medicamentos:
+        validade = date.fromisoformat(medicamento["data_validade"])
+
+        if validade < hoje:
+            avisos.append("Vencido")
+        elif validade <= limite_validade:
+            avisos.append("Próximo do vencimento")
+        else:
+            avisos.append("Dentro da validade")
+
     # Exibe os resultados na página HTML.
     return render_template(
         "estoque.html",
-        medicamentos=medicamentos)
+        medicamentos=medicamentos,
+        avisos=avisos)
 
 # Permite consultar e atualizar a quantidade de um medicamento.
 @app.route("/atualizar/<int:id_estoque>", methods=["GET", "POST"])
