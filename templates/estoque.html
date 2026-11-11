@@ -1,0 +1,21 @@
+<h2>Consulta de estoque</h2>
+
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Medicamento</th>
+            <th>Quantidade</th>
+            <th>Validade</th>
+        </tr>
+
+        {% for medicamento in medicamentos %}
+        <tr>
+            <td>{{ medicamento["nome"] }}</td>
+            <td>{{ medicamento["quantidade"] }}</td>
+            <td>{{ medicamento["data_validade"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p><a href="/cadastro">Cadastrar medicamento</a></p>
+</body>
+</html>

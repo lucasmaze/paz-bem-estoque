@@ -83,6 +83,31 @@ def cadastro():
     # Exibe a tela quando o usuário acessa a página.
     return render_template("cadastro.html")
 
+# Exibe os medicamentos cadastrados no estoque.
+@app.route("/estoque")
+def consultar_estoque():
+    # Abre a conexão com o banco de dados.
+    conexao = sqlite3.connect("estoque.db")
+    conexao.row_factory = sqlite3.Row
+
+    # Consulta os medicamentos e suas informações de estoque.
+    medicamentos = conexao.execute("""
+        SELECT Medicamento.nome,
+               Estoque.quantidade,
+               Estoque.data_validade
+        FROM Medicamento
+        JOIN Estoque
+          ON Medicamento.id_medicamento = Estoque.id_medicamento
+        ORDER BY Medicamento.nome
+    """).fetchall()
+
+    # Encerra a conexão.
+    conexao.close()
+
+    # Exibe os resultados na página HTML.
+    return render_template(
+        "estoque.html",
+        medicamentos=medicamentos)
 
 # Inicia o sistema para testes durante o desenvolvimento.
 if __name__ == "__main__":
