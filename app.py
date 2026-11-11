@@ -36,7 +36,7 @@ def cadastro():
             return "Dados inválidos. Confira o formulário.", 400
 
         # Verifica se a data de validade é válida.
-        from datetime import date
+      
 
         try:
             date.fromisoformat(validade)
