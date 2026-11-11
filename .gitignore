@@ -1,0 +1,6 @@
+# Banco de dados local do sistema.
+estoque.db
+
+# Arquivos temporários gerados pelo Python.
+__pycache__/
+*.pyc
