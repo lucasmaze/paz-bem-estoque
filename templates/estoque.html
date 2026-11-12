@@ -1,66 +1,185 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
-    <!-- Permite a exibição correta da página no celular. -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Carrega o arquivo CSS responsável pela aparência. -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
     <title>Consulta de Estoque</title>
+
+    <style>
+        .controles-acessibilidade {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .controles-acessibilidade button {
+            min-height: 44px;
+            padding: 10px 15px;
+            background-color: #176b45;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        body.texto-ampliado {
+            font-size: 20px;
+        }
+
+        body.texto-ampliado h2 {
+            font-size: 30px;
+        }
+
+        body.texto-ampliado th,
+        body.texto-ampliado td,
+        body.texto-ampliado a,
+        body.texto-ampliado .cartao-medicamento {
+            font-size: 20px;
+        }
+
+        /* Cartões ocultos no computador. */
+        .cartoes-estoque {
+            display: none;
+        }
+
+        /* Apresentação adaptada para celulares. */
+        @media (max-width: 600px) {
+            .tabela-estoque {
+                display: none;
+            }
+
+            .cartoes-estoque {
+                display: block;
+            }
+
+            .cartao-medicamento {
+                border: 1px solid #cccccc;
+                border-radius: 8px;
+                padding: 15px;
+                margin-bottom: 15px;
+                background-color: #ffffff;
+                overflow-wrap: anywhere;
+            }
+
+            .cartao-medicamento h3 {
+                margin-top: 0;
+            }
+
+            .cartao-medicamento p {
+                margin: 10px 0;
+            }
+
+            .cartao-medicamento a {
+                display: inline-block;
+                padding: 10px 15px;
+                background-color: #176b45;
+                color: white;
+                border-radius: 5px;
+                text-decoration: none;
+                margin-top: 5px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- Título da página. -->
     <h2>Consulta de estoque</h2>
 
-    <!-- Tabela com os medicamentos cadastrados. -->
-    <div class="tabela-estoque">
-    <table border="1" cellpadding="8">
+    <!-- Botões de acessibilidade. -->
+    <div class="controles-acessibilidade">
+        <button type="button" onclick="aumentarTexto()">
+            Aumentar texto
+        </button>
 
-        <!-- Cabeçalho da tabela. -->
-        <tr>
-            <th>Medicamento</th>
-            <th>Quantidade</th>
-            <th>Validade</th>
-            <th>Situação da validade</th>
-            <th>Ação</th>
-        </tr>
-
-        <!-- Percorre os medicamentos recebidos do Python. -->
-        {% for medicamento in medicamentos %}
-        <tr>
-
-            <!-- Exibe os dados do medicamento. -->
-            <td>{{ medicamento["nome"] }}</td>
-            <td>{{ medicamento["quantidade"] }}</td>
-            <td>{{ medicamento["data_validade"] }}</td>
-
-            <!-- Exibe o aviso de validade correspondente. -->
-            <td>{{ avisos[loop.index0] }}</td>
-
-            <!-- Permite atualizar a quantidade do medicamento. -->
-            <td>
-                <a href="{{ url_for('atualizar_estoque', id_estoque=medicamento['id_estoque']) }}">
-                    Atualizar
-                </a>
-            </td>
-
-        </tr>
-        {% endfor %}
-
-    </table>
+        <button type="button" onclick="restaurarTexto()">
+            Tamanho normal
+        </button>
     </div>
 
-    <!-- Link para cadastrar outro medicamento. -->
+    <!-- Tabela exibida no computador. -->
+    <div class="tabela-estoque">
+        <table border="1" cellpadding="8">
+            <tr>
+                <th>Medicamento</th>
+                <th>Quantidade</th>
+                <th>Validade</th>
+                <th>Situação da validade</th>
+                <th>Ação</th>
+            </tr>
+
+            {% for medicamento in medicamentos %}
+            <tr>
+                <td>{{ medicamento["nome"] }}</td>
+                <td>{{ medicamento["quantidade"] }}</td>
+                <td>{{ medicamento["data_validade"] }}</td>
+                <td>{{ avisos[loop.index0] }}</td>
+                <td>
+                    <a href="{{ url_for('atualizar_estoque',
+                                      id_estoque=medicamento['id_estoque']) }}">
+                        Atualizar
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Cartões exibidos no celular. -->
+    <div class="cartoes-estoque">
+
+        {% for medicamento in medicamentos %}
+        <div class="cartao-medicamento">
+
+            <h3>{{ medicamento["nome"] }}</h3>
+
+            <p>
+                <strong>Quantidade:</strong>
+                {{ medicamento["quantidade"] }}
+            </p>
+
+            <p>
+                <strong>Validade:</strong>
+                {{ medicamento["data_validade"] }}
+            </p>
+
+            <p>
+                <strong>Situação:</strong>
+                {{ avisos[loop.index0] }}
+            </p>
+
+            <a href="{{ url_for('atualizar_estoque',
+                              id_estoque=medicamento['id_estoque']) }}">
+                Atualizar quantidade
+            </a>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
     <p>
         <a href="{{ url_for('cadastro') }}">
             Cadastrar medicamento
         </a>
     </p>
+
+    <script>
+        function aumentarTexto() {
+            document.body.classList.add("texto-ampliado");
+        }
+
+        function restaurarTexto() {
+            document.body.classList.remove("texto-ampliado");
+        }
+    </script>
 
 </body>
 </html>
